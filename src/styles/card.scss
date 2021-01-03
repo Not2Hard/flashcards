@@ -12,6 +12,10 @@
         box-shadow: 7px 7px 7px rgba(0, 0, 0, .1);
         width: 500px;
         height: 180px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
 
 
         transform: rotateX(0);
@@ -23,13 +27,19 @@
             // box-shadow: 0px 0px 0px #888888;
             transition: $transition-delay;
             box-shadow: 7px 7px 7px rgba(0, 0, 0, 0);
+
         }
         &.turned {
             transform: rotateX(180deg);            
             // box-shadow: 0px 0px 0px #888888;
             // transition-delay: 2s;
             transition: 0.5s;
-            box-shadow: 7px 7px 7px rgba(0, 0, 0, .1);
+            box-shadow: 7px -7px 7px rgba(0, 0, 0, .1);
+            
+            .card_text{
+                transform: rotateX(180deg); 
+                color:red;
+            }
         }
         &.turningBack {
             transform: rotateX(-1deg);

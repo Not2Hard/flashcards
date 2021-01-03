@@ -8,21 +8,30 @@ import classnames from 'classnames'
 
 const TRANSITION_DELAY = 200
 
-export default class Card extends React.Component {
+export default class EditableCard extends React.Component {
     static propTypes = {
         // onInMotion: PropTypes.func.isRequired,
     }
 
     state = {
-        turning:     false,
-        turningBack: false,
-        turned:      false,
+        edit: false,
+        show: {
+            turning:     false,
+            turningBack: false,
+            turned:      false,}
+        
     }
 
     componentDidUpdate(prevProps){
         if (prevProps.isOpen !== this.props.isOpen){
             this.toggleTurn()
         }
+    }
+
+    handleEditButton = () => {
+        (!this.state.edit) ? this.setState({edit: true}) : this.setState({edit: false})
+
+        console.log('edit:', this.state.edit)
     }
 
 
@@ -53,6 +62,8 @@ export default class Card extends React.Component {
             }, TRANSITION_DELAY)
         }
     }
+    
+    
 
     render() {
         const card = this.props.card
@@ -66,7 +77,8 @@ export default class Card extends React.Component {
         return (
             <div className="cardx">
                 <div className={cardClass} onClick={handleClick}>
-                     <p className="card_text">{ cardText }</p>
+                    <p className="card_text">{ cardText }</p>
+                    <span className="card-title activator grey-text text-darken-4" onClick={this.handleEditButton} ><i className="material-icons right">more_vert</i></span>
                 </div>
             </div>
         )
