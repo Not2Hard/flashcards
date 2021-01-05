@@ -17,7 +17,7 @@ export default class EditableCard extends React.Component {
         super(props)
 
         this.state = {
-            edit: false,
+            edit: !props.card.front && !props.card.back ? true : false,
             show: {
                 turning:     false,
                 turningBack: false,
@@ -31,7 +31,7 @@ export default class EditableCard extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        const state = {...this.state}
+        const state = { ...this.state }
 
         state.front = props.card.front
         state.back = props.card.back
@@ -98,14 +98,13 @@ export default class EditableCard extends React.Component {
     handleSaveButton = () => {
         const newCard = {front: this.state.front, back: this.state.back, id: this.state.id}
         const handleSave = this.props.handleSave
-        handleSave(newCard)
-        console.log('sent card', newCard)
-        this.setState({ edit: false, })
+        this.setState({ edit: false }, () => {
+            handleSave(newCard)
+        })
     }
 
     handleRemoveButton = (id) => {
         const handleRemove = this.props.handleRemove
-        console.log('card deleting id ', id)
         handleRemove(id)
     }
     
@@ -132,8 +131,7 @@ export default class EditableCard extends React.Component {
                 { this.state.edit ? (
                             <div className={cardClass} onClick={handleClick}>
                                 <div className="top-icons">
-                                    <span className="card-icon" onClick={this.handleEditButton} ><i className="material-icons right">play_arrow</i></span>
-                                    <span className="card-icon" onClick={this.handleSaveButton} ><i className="material-icons right">save</i></span>
+                                    <span className="card-icon" onClick={this.handleSaveButton} ><i className="material-icons right">play_arrow</i></span>
                                     <span className="card-icon" onClick={e => {this.handleRemoveButton(this.state.id)}} ><i className="material-icons right">delete_forever</i></span>
                                 </div>
                                 <div className="col s12">

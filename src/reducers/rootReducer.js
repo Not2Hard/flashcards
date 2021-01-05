@@ -18,8 +18,8 @@ const initState = localStorage.getItem('cards')
 
 const rootReducer = (state = initState, action) => {
     if (action.type === 'AddCard') {
-       const newCards = state.cards.concat(action.cards) //state.cards([ ...cards, action.cards])
-       console.log('state.cards',newCards)
+       const newCards = action.cards
+       localStorage.setItem('cards', JSON.stringify({cards: newCards}))
        return {
         cards: newCards,
        }
@@ -34,6 +34,7 @@ const rootReducer = (state = initState, action) => {
     if (action.type === 'EditCards') {
         const newCards = action.cards 
         console.log('new cards',newCards)
+        localStorage.setItem('cards', JSON.stringify({cards: newCards}))
         return {
          cards: newCards,
         }

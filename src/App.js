@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css';
 import M from "materialize-css";
 import { useSelector } from 'react-redux'
@@ -15,6 +15,7 @@ function App() {
   const cards = useSelector(state => state)
   console.log('state', cards)
   const dispatch = useDispatch()
+  const [setName, changeSetName] = useState('Remember this:')
 
   useEffect( () => {
     let el = document.getElementById('tabs-swipe-demo')
@@ -32,14 +33,18 @@ function App() {
   const addCardInput = () => {
     const newCardSet = [ ...cards.cards, {front: '',back: '', id: uuidv4()}]
     console.log('adding new card', newCardSet)
-    localStorage.setItem('cards', JSON.stringify({cards: newCardSet}))
     // localStorage.setItem('cards', JSON.stringify({cards: newCardSet}))
-    // dispatch({ type: 'NewCard', cards: newCardSet})
+    dispatch({ type: 'AddCard', cards: newCardSet})
 }
 
   const handleRemove = (id) => {
       console.log('app deleting id ', id)
       dispatch({ type: 'DeleteCards', id: id})
+  }
+
+  const handleSetNameChange = (e) => {
+    const newSetName = e.target.value
+    changeSetName(newSetName)
   }
 
   return (
@@ -54,6 +59,16 @@ function App() {
         <div id="test-swipe-1" className="col s12 gray">
          <div className="">
             <br/>
+              <form>
+                <div className="row">
+                      Card set name: 
+                      <div className="input-field inline">
+                          <input  type="text" onChange={handleSetNameChange} name="cardSet" value={setName} placeholder='My cards' className="validate"/>
+                      </div>
+                     <a className="waves-effect waves-light btn">Save your set</a>
+                  </div>
+              </form>
+              
             <a onClick={addCardInput} className="btn-floating btn-large waves-effect waves-light red"><i className="material-icons">add</i></a>
             <br/><br/><br/>
             {
