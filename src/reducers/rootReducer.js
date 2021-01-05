@@ -8,6 +8,8 @@ const initState = {
         {front: '2+3', back: '3+2', id: uuidv4()}
     ]
 }
+const cardsFromLS = JSON.parse(localStorage.getItem('cards'))
+
 
 const rootReducer = (state = initState, action) => {
     if (action.type === 'AddCard') {
@@ -17,9 +19,13 @@ const rootReducer = (state = initState, action) => {
         cards: newCards,
        }
     }
-    if (action.type === 'UpdateCardSet') {
-        state.cards = action.cards
-    }
+    if (action.type === 'EditCards') {
+        const newCards = action.cards 
+        console.log('new cards',newCards)
+        return {
+         cards: newCards,
+        }
+     }
     return state;
 }
 export default rootReducer

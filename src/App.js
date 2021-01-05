@@ -6,7 +6,10 @@ import { useSelector } from 'react-redux'
 import { useDispatch} from 'react-redux'
 import Card from './components/Card'
 import AddCards from './components/addCards'
+
 import EditableCard from './components/EdditableCard'
+
+
 
 
 function App() {
@@ -18,10 +21,18 @@ function App() {
     let el = document.getElementById('tabs-swipe-demo')
     let instance = M.Tabs.init(el)
   }, [])
-
+  
+  const handleSave = (newCard) => {
+      const newCardSet = cards.cards.slice().map(card => {
+        return (card.id === newCard.id ? newCard : card )
+      })
+      dispatch({ type: 'EditCards', cards: newCardSet})
+      localStorage.setItem('cards', JSON.stringify(newCardSet))
+     
+  }
 
   return (
-    <div className="App">
+    <div className="App"> 
       <div className="container">
         <h1 className="center blue-text">Flash cards</h1>
         <ul id="tabs-swipe-demo" className="tabs tabs-fixed-width">
@@ -37,10 +48,9 @@ function App() {
             <br/>
             <AddCards />
             {
-              //console.log("to map",cards.cards)
               cards.cards.map((card) => {
                 return(
-                  <div key={card.id}><EditableCard card={card}/><br/></div>
+                  <div key={card.id}><EditableCard card={card} handleSave={handleSave}/><br/></div>
                 )
               })
               
@@ -54,7 +64,7 @@ function App() {
               //console.log("to map",cards.cards)
               cards.cards.map((card) => {
                 return(
-                  <div key={card.id}><Card card={card}/><br/></div>
+                  <div key={card.id}><Card card={card} /><br/></div>
                 )
               })
               

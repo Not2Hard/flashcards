@@ -11,7 +11,7 @@
         border-radius: $border-radius;
         box-shadow: 7px 7px 7px rgba(0, 0, 0, .1);
         width: 500px;
-        height: 180px;
+        height: 250px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -21,7 +21,16 @@
         transform: rotateX(0);
 
         $transition-delay: .2s;
+        .top-icons{
+            position: absolute; 
+            top: 3px; 
+            right: 3px;
+            display: inline-block;
+        }
+        .card-icon {
 
+            // border: 1px solid rgba(253, 3, 3, 0.25);
+            }
         &.turning {
             transform: rotateX(90deg);
             // box-shadow: 0px 0px 0px #888888;
