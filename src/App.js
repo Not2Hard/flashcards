@@ -1,15 +1,14 @@
 import React, { useEffect} from 'react'
 import './App.css';
 import M from "materialize-css";
-import AddNewCard from './components/AddNewCard'
 import { useSelector } from 'react-redux'
 import { useDispatch} from 'react-redux'
 import Card from './components/Card'
-import AddCards from './components/addCards'
 
 import EditableCard from './components/EdditableCard'
 
 
+const uuidv4 = require("uuid/v4")
 
 
 function App() {
@@ -27,8 +26,20 @@ function App() {
         return (card.id === newCard.id ? newCard : card )
       })
       dispatch({ type: 'EditCards', cards: newCardSet})
-      localStorage.setItem('cards', JSON.stringify(newCardSet))
+      localStorage.setItem('cards', JSON.stringify({cards: newCardSet}))
      
+  }
+  const addCardInput = () => {
+    const newCardSet = [ ...cards.cards, {front: '',back: '', id: uuidv4()}]
+    console.log('adding new card', newCardSet)
+    localStorage.setItem('cards', JSON.stringify({cards: newCardSet}))
+    // localStorage.setItem('cards', JSON.stringify({cards: newCardSet}))
+    // dispatch({ type: 'NewCard', cards: newCardSet})
+}
+
+  const handleRemove = (id) => {
+      console.log('app deleting id ', id)
+      dispatch({ type: 'DeleteCards', id: id})
   }
 
   return (
@@ -42,15 +53,13 @@ function App() {
         </ul>
         <div id="test-swipe-1" className="col s12 gray">
          <div className="">
-           <br/>
-            <AddNewCard />
             <br/>
-            <br/>
-            <AddCards />
+            <a onClick={addCardInput} className="btn-floating btn-large waves-effect waves-light red"><i className="material-icons">add</i></a>
+            <br/><br/><br/>
             {
               cards.cards.map((card) => {
                 return(
-                  <div key={card.id}><EditableCard card={card} handleSave={handleSave}/><br/></div>
+                  <div key={card.id}><EditableCard card={card} handleSave={handleSave} handleRemove={handleRemove}/><br/></div>
                 )
               })
               

@@ -5,8 +5,6 @@ import PropTypes  from 'prop-types'
 import classnames from 'classnames'
 
 
-const uuidv4 = require("uuid/v4")
-
 const TRANSITION_DELAY = 200
 
 export default class EditableCard extends React.Component {
@@ -38,6 +36,10 @@ export default class EditableCard extends React.Component {
         state.front = props.card.front
         state.back = props.card.back
         state.id = props.card.id
+
+        if (props.card.front === '') {
+            this.setState({ edit: true, })
+        }
 
         this.setState(state)
     }
@@ -98,8 +100,13 @@ export default class EditableCard extends React.Component {
         const handleSave = this.props.handleSave
         handleSave(newCard)
         console.log('sent card', newCard)
-        this.setState({ edit: !this.state.edit })
+        this.setState({ edit: false, })
+    }
 
+    handleRemoveButton = (id) => {
+        const handleRemove = this.props.handleRemove
+        console.log('card deleting id ', id)
+        handleRemove(id)
     }
     
 
@@ -125,8 +132,9 @@ export default class EditableCard extends React.Component {
                 { this.state.edit ? (
                             <div className={cardClass} onClick={handleClick}>
                                 <div className="top-icons">
+                                    <span className="card-icon" onClick={this.handleEditButton} ><i className="material-icons right">play_arrow</i></span>
                                     <span className="card-icon" onClick={this.handleSaveButton} ><i className="material-icons right">save</i></span>
-                                    <span className="card-icon" onClick={this.handleEditButton} ><i className="material-icons right">delete_forever</i></span>
+                                    <span className="card-icon" onClick={e => {this.handleRemoveButton(this.state.id)}} ><i className="material-icons right">delete_forever</i></span>
                                 </div>
                                 <div className="col s12">
                                     <div className="row">
